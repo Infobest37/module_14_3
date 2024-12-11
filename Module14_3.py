@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from db import *
 import asyncio
 
 api = "7945740698:AAEInDjzg83i0KA-71qopdj-KFwhISwCNvI"
@@ -52,9 +53,11 @@ async def main_menu(message: types.Message):
 @dp.message_handler(text = "Купить")
 async def get_buying_list(message: types.Message):
     with open("photo/bag.jpg", "rb") as f:
-        await message.answer_photo(f,f" Название: Продукт 1 | Описание: описание 1 | Цена: 100")
+        await message.answer_photo(f,f" Название: {cursor.execute("SELECT * FROM Products WHERE title = ?", ("Product1",))}|" 
+            f"Описание:{cursor.execute("SELECT * FROM Products WHERE description = ?", ("Описание1",))} |" 
+        f" Цена: {cursor.execute("SELECT * FROM Products WHERE price = ?", (100,)) }")
     with open("photo/dog.jpg", "rb") as f_1:
-        await message.answer_photo(f_1,f" Название: Продукт 2 | Описание: описание 2 | Цена: 200")
+        await message.answer_photo(f_1,f" Название: Продукт 2  Описание: описание 2  Цена: 200")
     with open("photo/flower.jpg", "rb") as f_2:
         await message.answer_photo(f_2,f" Название: Продукт 3 | Описание: описание 3 | Цена: 300")
     with open("photo/nature.jpg", "rb") as f_3:

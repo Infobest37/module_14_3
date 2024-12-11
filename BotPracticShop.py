@@ -9,6 +9,8 @@ import asyncio
 from config import *
 from keybords import *
 import text
+from admin import *
+import bd
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API)
