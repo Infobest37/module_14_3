@@ -28,22 +28,22 @@ async def price(message: types.Message):
    await message.answer("Какая игра вам интересна?", reply_markup= catalog_kb)
 @dp.callback_query_handler(text="medium")
 async def bayM(call):
-    with open("photo/flower.jpg", "rb") as f:
+    with open("photo/Product2.jpg", "rb") as f:
         await call.message.answer_photo(f, text.Mgame, reply_markup=buy_kb)
         await call.answer()
 @dp.callback_query_handler(text="big")
 async def bayL(call):
-    with open("photo/nature.jpg", "rb") as f:
+    with open("photo/Product3.jpg", "rb") as f:
         await call.message.answer_photo(f, text.Lgame, reply_markup=buy_kb)
         await call.answer()
 @dp.callback_query_handler(text="mega")
 async def bayXL (call):
-    with open("photo/bag.jpg", "rb") as f:
+    with open("photo/Product4.jpg", "rb") as f:
         await call.message.answer_photo(f, text.Xgame, reply_markup=buy_kb)
         await call.answer()
 @dp.callback_query_handler(text="other")
 async def other(call):
-    with open("photo/flower.jpg", "rb") as f:
+    with open("photo/Product2.jpg", "rb") as f:
         await call.message.answer(f, text.other, reply_markup=buy_kb)
         await call.answer()
 @dp.callback_query_handler(text="back")

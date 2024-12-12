@@ -6,6 +6,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from db import *
 import asyncio
+import os
 
 api = "7945740698:AAEInDjzg83i0KA-71qopdj-KFwhISwCNvI"
 bot = Bot(token=api)
@@ -50,21 +51,24 @@ async def main_menu(message: types.Message):
     Обработчик кнопки 'Рассчитать' из Reply клавиатуры.
     """
     await message.answer("Выберите опцию:", reply_markup=ikb)
-@dp.message_handler(text = "Купить")
+
+
+@dp.message_handler(text="Купить")
 async def get_buying_list(message: types.Message):
-    with open("photo/bag.jpg", "rb") as f:
-        await message.answer_photo(f,f" Название: {cursor.execute("SELECT * FROM Products WHERE title = ?", ("Product1",))}|" 
-            f"Описание:{cursor.execute("SELECT * FROM Products WHERE description = ?", ("Описание1",))} |" 
-        f" Цена: {cursor.execute("SELECT * FROM Products WHERE price = ?", (100,)) }")
-    with open("photo/dog.jpg", "rb") as f_1:
-        await message.answer_photo(f_1,f" Название: Продукт 2  Описание: описание 2  Цена: 200")
-    with open("photo/flower.jpg", "rb") as f_2:
-        await message.answer_photo(f_2,f" Название: Продукт 3 | Описание: описание 3 | Цена: 300")
-    with open("photo/nature.jpg", "rb") as f_3:
-        await message.answer_photo(f_3,f" Название: Продукт 4 | Описание: описание 4 | Цена: 400")
+    products = get_all_products()
 
-    await message.answer("Выбрите продукт для покупки", reply_markup=product_buying)
+    for title, description, price in products:
+        # Формируем путь к изображению для каждого продукта
+        photo_file = os.path.join("photo",
+                                  f"{title}.jpg")  # Предполагается, что названии файлов совпадают с названиями продуктов
 
+        if os.path.exists(photo_file):
+            with open(photo_file, "rb") as image:
+                await message.answer_photo(image, f"Название: {title} | Описание: {description} | Цена: {price}")
+        else:
+            await message.answer(f"Фотография для {title} не найдена.")
+
+    await message.answer(text="Выберите продукт для покупки", reply_markup=product_buying)
 @dp.callback_query_handler(text="product1")
 async def product1(call):
     await call.message.answer("Вы успешно приобрели продукт")
