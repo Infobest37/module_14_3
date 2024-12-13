@@ -4,11 +4,11 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from db import *
+from db14_3 import *
 import asyncio
 import os
 
-api = "7945740698:AAEInDjzg83i0KA-71qopdj-KFwhISwCNvI"
+api = ""
 bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
@@ -59,8 +59,7 @@ async def get_buying_list(message: types.Message):
 
     for title, description, price in products:
         # Формируем путь к изображению для каждого продукта
-        photo_file = os.path.join("photo",
-                                  f"{title}.jpg")  # Предполагается, что названии файлов совпадают с названиями продуктов
+        photo_file = os.path.join("photo", f"{title}.jpg")  # ищем файл по названию
 
         if os.path.exists(photo_file):
             with open(photo_file, "rb") as image:
